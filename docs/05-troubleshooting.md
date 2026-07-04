@@ -21,7 +21,7 @@ iptables -t nat -L POSTROUTING -n -v | grep 3389
 
 ```bash
 # vt-x.com
-ping -c 3 192.168.10.10
+ping -c 3 192.168.10.200
 
 # OpenWrt
 cat /proc/net/nf_conntrack | grep 3389

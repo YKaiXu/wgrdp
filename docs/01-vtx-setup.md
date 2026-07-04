@@ -55,12 +55,10 @@ sysctl -p
 
 ```bash
 # PREROUTING DNAT
-iptables -t nat -A PREROUTING -p tcp --dport 53386 -j DNAT --to-destination 192.168.10.10:3389
-iptables -t nat -A PREROUTING -p udp --dport 53386 -j DNAT --to-destination 192.168.10.10:3389
-
-# POSTROUTING SNAT（源地址改为 WG 隧道 IP）
-iptables -t nat -A POSTROUTING -p tcp --dport 3389 -d 192.168.10.10 -j SNAT --to-source 10.0.0.1
-iptables -t nat -A POSTROUTING -p udp --dport 3389 -d 192.168.10.10 -j SNAT --to-source 10.0.0.1
+iptables -t nat -A PREROUTING -p tcp --dport 53386 -j DNAT --to-destination 192.168.10.200:3389
+iptables -t nat -A PREROUTING -p udp --dport 53386 -j DNAT --to-destination 192.168.10.200:3389
+iptables -t nat -A POSTROUTING -p tcp --dport 3389 -d 192.168.10.200 -j SNAT --to-source 10.0.0.1
+iptables -t nat -A POSTROUTING -p udp --dport 3389 -d 192.168.10.200 -j SNAT --to-source 10.0.0.1
 
 # FORWARD 放行（可选，默认 ACCEPT 则不需要）
 iptables -A FORWARD -p tcp --dport 3389 -j ACCEPT
@@ -86,9 +84,9 @@ ip route add 192.168.10.0/24 dev wg0
 # 检查 WG 状态
 wg show
 
-# 测试到 10.10 的连通性
-ping -c 3 192.168.10.10
+# 测试到目标主机的连通性
+ping -c 3 192.168.10.200
 
 # 测试 RDP 端口
-timeout 3 nc -zv 192.168.10.10 3389
+timeout 3 nc -zv 192.168.10.200 3389
 ```

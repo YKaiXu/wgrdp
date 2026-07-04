@@ -23,8 +23,8 @@ cat /proc/net/nf_conntrack | grep 3389
 期望结果（UDP 条目存在且 ASSURED）：
 
 ```
-ipv4     2 udp      17 XX src=<客户端IP> dst=<vt-x公网IP> sport=XXXX dport=53386 src=192.168.10.10 dst=10.0.0.1 sport=3389 dport=XXXX [ASSURED]
-ipv4     2 tcp      6 299 ESTABLISHED src=<客户端IP> dst=<vt-x公网IP> sport=XXXX dport=53386 src=192.168.10.10 dst=10.0.0.1 sport=3389 dport=XXXX [ASSURED]
+ipv4     2 udp      17 XX src=<客户端IP> dst=<vt-x公网IP> sport=XXXX dport=53386 src=192.168.10.200 dst=10.0.0.1 sport=3389 dport=XXXX [ASSURED]
+ipv4     2 tcp      6 299 ESTABLISHED src=<客户端IP> dst=<vt-x公网IP> sport=XXXX dport=53386 src=192.168.10.200 dst=10.0.0.1 sport=3389 dport=XXXX [ASSURED]
 ```
 
 ### OpenWrt
@@ -36,7 +36,7 @@ cat /proc/net/nf_conntrack | grep 3389
 期望结果：
 
 ```
-ipv4     2 udp      17 XX src=10.0.0.1 dst=192.168.10.10 sport=XXXX dport=3389 packets=N bytes=N src=192.168.10.10 dst=10.0.0.1 sport=3389 dport=XXXX packets=M bytes=M [ASSURED]
+ipv4     2 udp      17 XX src=10.0.0.1 dst=192.168.10.200 sport=XXXX dport=3389 packets=N bytes=N src=192.168.10.200 dst=10.0.0.1 sport=3389 dport=XXXX packets=M bytes=M [ASSURED]
 ```
 
 `[ASSURED]` 表示双向流量已交换。
